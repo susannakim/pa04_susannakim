@@ -73,17 +73,19 @@ namespace main_savitch_5
   }
 
   void polynomial::set_recent(unsigned int exponent) const {
-    if(exponent < 0) {
-      // stub
+    if(exponent == 0) {
+      recent_ptr = head_ptr;
     }
     else if(exponent >= current_degree) {
-      // stub
+      recent_ptr = tail_ptr;
     }
-    else if(exponent < current_degree) {
-      // stub
+    else if(exponent < recent_ptr->exponent()) {
+      while((recent_ptr->back() != NULL) && (recent_ptr->exponent() > exponent)) {
+	recent_ptr = recent_ptr->back();
+      }
     }
     else {
-      // stub
+      recent_ptr = recent_ptr->fore();
     }
   }
   
