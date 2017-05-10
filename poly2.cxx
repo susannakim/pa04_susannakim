@@ -85,7 +85,9 @@ namespace main_savitch_5
       }
     }
     else {
-      recent_ptr = recent_ptr->fore();
+      while((recent_ptr->fore() != NULL) && (recent_ptr->exponent() < exponent)) {
+	recent_ptr = recent_ptr->fore();
+      }
     }
   }
   
