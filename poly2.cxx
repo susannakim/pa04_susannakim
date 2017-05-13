@@ -13,15 +13,32 @@ using namespace std;
 namespace main_savitch_5
 {
   polynomial::polynomial(double c, unsigned int exponent){
-    // stub
+    head_ptr = new polynode(c, 0);
+    if((exponent == 0) || (c == 0)) {
+      recent_ptr = head_ptr;
+      tail_ptr = head_ptr;
+      current_degree = 0;
+    }
+    else {
+      head_ptr->set_coef(0);
+      tail_ptr = new polynode(c, exponent, NULL, head_ptr);
+      head_ptr->set_fore(tail_ptr);
+      recent_ptr = tail_ptr;
+      current_degree = tail_ptr->exponent();
+    }
   }
 
   polynomial::polynomial(const polynomial& source){
-    // stub
+    head_ptr = new polynode();
+    tail_ptr = head_ptr;
+    recent_ptr = tail_ptr;
+    current_degree = tail_ptr->exponent(); 
+    head_ptr->set_fore(NULL);
+    head_ptr->set_back(NULL);
   }
 
   polynomial::~polynomial(){
-    // stub
+    clear();
   }
 
   polynomial& polynomial::operator =(const polynomial& source){
@@ -37,11 +54,22 @@ namespace main_savitch_5
   }
 
   void polynomial::clear(){
-    // stub
+    recent_ptr = tail_ptr;
+    polynode* cursor = tail_ptr;
+    while(recent_ptr->back() != NULL){
+      cursor = recent_ptr->back();
+      recent_ptr = cursor;
+    }
   }
 
   double polynomial::coefficient(unsigned int exponent) const{
-    // stub
+    set_recent(exponent);
+    if(recent_ptr->exponent() == exponent) {
+      return recent_ptr->coef();
+    }
+    else {
+      return 0;
+    }
   }
 
   polynomial polynomial::derivative() const{
